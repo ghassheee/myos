@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+
+/* edimg -i -o --add -s -l -f -t
+ */
+
+FILE *fp;
+char* input,output,add;
+int len,from,to;
+
+
+void usage(int i)
+{
+    printf("usage\n $ edimg -i input -o output --add src startpoint-of-input startpoint-of-srcfile length\n");
+    printf("%d\n",i);
+}
+
+void arg(int argc, char** argv)
+{
+    int i=0;
+    char* c;
+    printf("argc =%d\n",argc);
+    while(i<argc)
+    {
+        if (*(c=&argv[i+1][0])=='-')
+            switch(*(c+1))
+            {
+                case 'i': 
+                    input=*argv[i+2];
+                    i+=2;break;
+                case 'o':
+                    output=*argv[i+2];
+                    i+=2;break;
+                case '-':
+                    if (strcmp(c+2,"add")) usage(1);
+                    add=*argv[i+2];
+                    printf("%d\n",from=atoi(argv[i+3]));
+                    printf("%d\n",to=atoi(argv[i+4]));
+                    printf("%d\n",len=atoi(argv[i+5]));
+                    //to=atoi(argv[i+4]);
+                    //len=atoi(argv[i+5]);
+                    usage(8);
+                    i+=5;break;
+                default:
+                    usage(2);
+            }
+        else usage(3);
+        
+    }
+}
+
+int main(int argc, char** argv)
+{
+    arg(argc, argv);
+    usage(10);
+    printf("%s %s %s %d %d %d",input,output,add,from,to,len);
+    return 0;
+}
